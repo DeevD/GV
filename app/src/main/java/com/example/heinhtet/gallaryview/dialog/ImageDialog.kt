@@ -41,6 +41,7 @@ class ImageDialog : DialogFragment(), DialogRecyclerAdapter.ClickListener {
     private var imageTotalTv: TextView? = null
     private var lblTitle: TextView? = null
     private var lblDate: TextView? = null
+    lateinit var desTv: TextView
     lateinit var recyclerView: RecyclerView
     lateinit var dialogAdpter: DialogImageAdapter
     lateinit var dAdapter: DialogRecyclerAdapter
@@ -69,6 +70,8 @@ class ImageDialog : DialogFragment(), DialogRecyclerAdapter.ClickListener {
         val v = inflater.inflate(R.layout.dialog_layout, container, false)
         viewPager = v.findViewById(R.id.viewpager)
         imageTotalTv = v.findViewById<TextView>(R.id.image_total_count_tv)
+        desTv = v
+                .findViewById(R.id.description_tv)
 //        lblTitle = v.findViewById<TextView>(R.id.title) as TextView
 //        lblDate = v.findViewById<TextView>(R.id.date) as TextView
         dialogAdpter = DialogImageAdapter(fragmentActivity)
@@ -77,14 +80,10 @@ class ImageDialog : DialogFragment(), DialogRecyclerAdapter.ClickListener {
         var layout = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView.setLayoutManager(MyLinearManagerWithSmoothScroller(fragmentActivity))
         recyclerView.adapter = dAdapter
-        dAdapter.addAll(getPersonList(3))
         var exist = v.findViewById<ImageView>(R.id.exist) as ImageView
         exist.setOnClickListener {
             this.dismiss()
         }
-
-
-        testImageArray.addAll(getPersonList(6))
 
         getImages = arguments?.getSerializable("image_list") as ArrayList<DialogImageData>
         name = arguments?.getString("name")
@@ -92,7 +91,7 @@ class ImageDialog : DialogFragment(), DialogRecyclerAdapter.ClickListener {
         //  dialogAdpter.addAll(testImageArray)
         dialogAdpter.addAll(getImages)
         dAdapter.ClickListener(this)
-
+        dAdapter.addAll(getImages)
         Log.e(TAG, "position: " + selectedPosition)
         myViewPagerAdapter = MyViewPagerAdapter()
         viewPager!!.adapter = myViewPagerAdapter
@@ -128,6 +127,7 @@ class ImageDialog : DialogFragment(), DialogRecyclerAdapter.ClickListener {
 
     private fun displayMetaInfo(position: Int) {
         imageTotalTv!!.text = (position + 1).toString() + " of " + getImages!!.size
+        desTv.text = "${getImages[position].des} of $position"
 //        lblTitle!!.setText(name)
 //        lblTitle!!.text = testImageArray[position].description
 
@@ -169,24 +169,5 @@ class ImageDialog : DialogFragment(), DialogRecyclerAdapter.ClickListener {
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
             container.removeView(`object` as View)
         }
-    }
-
-    fun getPersonList(page: Int): ArrayList<DialogImageData> {
-        val arr = ArrayList<DialogImageData>()
-        arr.add(DialogImageData(4, "http://i2.hdslb.com/52_52/user/61175/6117592/myface.jpg", false))
-        arr.add(DialogImageData(9, "http://i1.hdslb.com/52_52/user/6738/673856/myface.jpg", false))
-        arr.add(DialogImageData(8, "http://i1.hdslb.com/account/face/1467772/e1afaf4a/myface.png", false))
-        arr.add(DialogImageData(7, "http://i0.hdslb.com/52_52/user/18494/1849483/myface.jpg", false))
-        arr.add(DialogImageData(5, "http://i0.hdslb.com/52_52/account/face/4613528/303f4f5a/myface.png", false))
-        arr.add(DialogImageData(5, "http://i0.hdslb.com/52_52/account/face/611203/76c02248/myface.png", false))
-        arr.add(DialogImageData(43, "http://i2.hdslb.com/52_52/user/46230/4623018/myface.jpg", false))
-        arr.add(DialogImageData(43, "http://i2.hdslb.com/52_52/user/66723/6672394/myface.jpg", false))
-        arr.add(DialogImageData(1, "http://i1.hdslb.com/user/3039/303946/myface.jpg", false))
-        arr.add(DialogImageData(2, "http://i2.hdslb.com/account/face/9034989/aabbc52a/myface.png", false))
-        arr.add(DialogImageData(2, "http://i0.hdslb.com/account/face/1557783/8733bd7b/myface.png", false))
-        arr.add(DialogImageData(1,
-                "http://i2.hdslb.com/user/3716/371679/myface.jpg",
-                false))
-        return arr
     }
 }

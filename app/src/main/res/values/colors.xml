@@ -5,5 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="border_color">#2e86d7</color>
     <color name="touch_overlay_ripple">#d03b3b40</color>
-
-</resources>
+    <color name="des_bg">#767676</color>
+    </resources>

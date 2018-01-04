@@ -102,16 +102,16 @@ class DialogRecyclerAdapter() : RecyclerView.Adapter<DialogRecyclerAdapter.DVH>(
         imageList.forEachIndexed { index, dialogImageData ->
             if (position == index) {
                 Log.i("index", "position same  " + index)
-                tempList.add(DialogImageData(imageList[position].id, imageList[position].imagePath, true))
+                tempList.add(DialogImageData(imageList[position].id, imageList[position].des, imageList[position].imagePath, true))
             } else {
                 Log.i("index", "position not same  " + index)
-                tempList.add(DialogImageData(imageList[index].id, imageList[index].imagePath, false))
+                tempList.add(DialogImageData(imageList[index].id, imageList[position].des, imageList[index].imagePath, false))
             }
         }
         imageList.clear()
         this.addAll(tempList)
         notifyDataSetChanged()
-        Log.i("templist ",tempList.toString())
+        Log.i("templist ", tempList.toString())
     }
 
 }
